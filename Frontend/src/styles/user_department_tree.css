@@ -1,0 +1,75 @@
+.tree-container {
+    margin-right: 15px;
+    max-height: 500px; /* 控制树的最大高度，超出部分可滚动 */
+    overflow-y: auto;
+    padding: 15px; /* 内间距 */
+    background-color: #ffffff; /* 背景色 */
+    border-radius: 12px; /* 圆角 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 提升阴影效果 */
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0; /* 边框颜色 */
+  }
+  
+  .ant-tree {
+    font-size: 14px; /* 设置字体大小 */
+    line-height: 1.8; /* 增加行间距 */
+    color: #333; /* 节点文本颜色 */
+  }
+  
+  .ant-tree-treenode {
+    margin-bottom: 8px; /* 节点之间的间距 */
+    padding: 8px 12px; /* 节点的内间距 */
+    border-radius: 8px; /* 节点圆角 */
+    transition: background-color 0.3s, box-shadow 0.3s ease; /* 增加过渡效果 */
+  }
+  
+  .ant-tree-treenode:hover {
+    background-color: #f0f8ff; /* 悬停时的背景色 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 悬停时增加阴影 */
+    border-radius: 8px; /* 悬停时的圆角 */
+    cursor: pointer;
+  }
+  
+  .ant-tree-treenode-selected {
+    background-color: #e6f7ff !important; /* 选中时的背景色 */
+    box-shadow: 0 0 10px rgba(24, 144, 255, 0.4); /* 选中时增加阴影 */
+    border-left: 3px solid #1890ff; /* 选中时左侧加上蓝色边框 */
+  }
+  
+  .ant-tree-title {
+    font-weight: 600; /* 节点文字加粗 */
+    color: #595959; /* 节点文字颜色 */
+    transition: color 0.3s ease; /* 文字颜色过渡效果 */
+  }
+  
+  .ant-tree-treenode-selected .ant-tree-title {
+    color: #1890ff; /* 选中时文字颜色 */
+  }
+  
+  .ant-tree-iconEle {
+    font-size: 18px; /* 图标大小 */
+    margin-right: 10px; /* 图标与文字的间距 */
+    color: #1890ff; /* 图标颜色 */
+  }
+  
+  .ant-tree-switcher, .ant-tree-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px; /* 调整复选框和展开/折叠箭头的间距 */
+  }
+  
+  .tree-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .tree-container::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* 滚动条样式 */
+    border-radius: 4px;
+  }
+  
+  .tree-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+  
+  

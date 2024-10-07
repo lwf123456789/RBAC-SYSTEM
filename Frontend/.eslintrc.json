@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
+  "rules": {
+    "react-hooks/exhaustive-deps": "off", // 禁用 useEffect 依赖警告
+    "react/jsx-key": "off" // 禁用 JSX 缺少 key 的警告
+  }
+}

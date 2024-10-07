@@ -1,0 +1,71 @@
+# Go 相关
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# 二进制文件
+bin/
+*.bin
+
+# 测试文件
+*.test
+*.tmp
+
+# 依赖目录
+vendor/
+
+# IDE 和编辑器文件
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 环境变量文件
+.env
+*.env
+
+# 编译输出
+/dist
+
+# 临时文件
+tmp/
+temp/
+
+# 配置文件（根据需要调整）
+# config.yaml
+# config.json
+
+# 证书文件
+*.pem
+*.cert
+*.key
+
+# 数据库文件
+*.db
+*.sqlite
+
+# 缓存文件
+*.cache
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+
+# 其他
+*.bak
+*.backup
+*.old

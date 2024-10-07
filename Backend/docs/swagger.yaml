@@ -1,0 +1,1103 @@
+definitions:
+  controllers.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  errors.APIError:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  models.AdminUser:
+    properties:
+      created_at:
+        type: string
+      department:
+        $ref: '#/definitions/models.Department'
+      department_id:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      last_login:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/models.Role'
+        type: array
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Department:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/models.Department'
+        type: array
+      created_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      parent_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Dictionary:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      label:
+        type: string
+      sort:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: string
+      value:
+        type: string
+    type: object
+  models.Menu:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/models.Menu'
+        type: array
+      component_path:
+        type: string
+      created_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      parent_id:
+        type: integer
+      path:
+        type: string
+      permission_items:
+        items:
+          $ref: '#/definitions/models.Permission'
+        type: array
+      permissions:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/models.Role'
+        type: array
+      sort:
+        type: integer
+      status:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.Permission:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      menu:
+        $ref: '#/definitions/models.Menu'
+      menu_id:
+        type: integer
+      role_ids:
+        items:
+          type: integer
+        type: array
+      roles:
+        items:
+          $ref: '#/definitions/models.Role'
+        type: array
+      updated_at:
+        type: string
+    type: object
+  models.Role:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      menus:
+        items:
+          $ref: '#/definitions/models.Menu'
+        type: array
+      name:
+        type: string
+      permissions:
+        items:
+          $ref: '#/definitions/models.Permission'
+        type: array
+      updated_at:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.AdminUser'
+        type: array
+    type: object
+host: localhost:8082
+info:
+  contact:
+    email: support@yourcompany.com
+    name: API Support
+    url: http://www.yourcompany.com/support
+  description: 这是GOCOM项目的API文档，提供了详细的接口说明和使用方法。
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: GOCOM API
+  version: "1.0"
+paths:
+  /api/admin_user:
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的用户，并关联角色
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回创建的用户信息
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 创建用户失败
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 创建新用户
+      tags:
+      - 用户模块
+  /api/admin_user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定用户
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回删除成功信息
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 删除用户
+      tags:
+      - 用户模块
+    put:
+      consumes:
+      - application/json
+      description: 更新指定用户的信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回更新后的用户信息
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 更新用户信息
+      tags:
+      - 用户模块
+  /api/admin_user/info:
+    get:
+      consumes:
+      - application/json
+      description: 获取当前登录用户的详细信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回用户信息
+          schema:
+            $ref: '#/definitions/models.AdminUser'
+        "401":
+          description: 用户未认证
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 获取用户信息失败
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取用户信息
+      tags:
+      - 用户模块
+  /api/admin_user/login:
+    post:
+      consumes:
+      - application/json
+      description: 管理员用户登录并获取token
+      parameters:
+      - description: 登录信息
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回token和用户信息
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "401":
+          description: 登录失败
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 用户登录
+      tags:
+      - 用户模块
+  /api/adminUser/get:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有用户及其角色信息，支持分页、按部门过滤、邮箱和名字模糊搜索，以及按角色筛选
+      parameters:
+      - default: 1
+        description: 当前页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页记录数量
+        in: query
+        name: pageSize
+        type: integer
+      - description: 部门ID，用于过滤该部门下的用户
+        in: query
+        name: departmentID
+        type: integer
+      - description: 邮箱模糊搜索
+        in: query
+        name: email
+        type: string
+      - description: 名字模糊搜索
+        in: query
+        name: name
+        type: string
+      - description: 角色ID列表，用逗号分隔，如 '3,4'
+        in: query
+        name: roles
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回包含用户列表、总记录数、当前页和每页数量的 JSON 数据
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 获取用户数据失败
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取用户列表及其角色
+      tags:
+      - 用户模块
+  /api/department:
+    get:
+      consumes:
+      - application/json
+      description: 获取部门所有数据
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Department'
+            type: array
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 获取部门列表
+      tags:
+      - 部门管理
+  /api/dicts:
+    get:
+      consumes:
+      - application/json
+      description: 根据类型获取数据字典
+      parameters:
+      - description: 字典类型
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Dictionary'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取数据字典
+      tags:
+      - 字典管理
+    post:
+      consumes:
+      - application/json
+      description: 创建新的数据字典项
+      parameters:
+      - description: 数据字典信息
+        in: body
+        name: dictionary
+        required: true
+        schema:
+          $ref: '#/definitions/models.Dictionary'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Dictionary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 创建数据字典
+      tags:
+      - 字典管理
+    put:
+      consumes:
+      - application/json
+      description: 更新现有的数据字典项
+      parameters:
+      - description: 字典ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 数据字典信息
+        in: body
+        name: dictionary
+        required: true
+        schema:
+          $ref: '#/definitions/models.Dictionary'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Dictionary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 更新数据字典
+      tags:
+      - 字典管理
+  /api/dicts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定的数据字典项
+      parameters:
+      - description: 字典ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 删除数据字典
+      tags:
+      - 字典管理
+  /api/dicts/all:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有数据字典项，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取所有数据字典
+      tags:
+      - 字典管理
+  /api/menus:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有菜单项，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回菜单列表、总数、页码和每页数量
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 获取所有菜单
+      tags:
+      - 菜单管理
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的菜单项
+      parameters:
+      - description: 菜单信息
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/models.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 返回创建的菜单信息
+          schema:
+            $ref: '#/definitions/models.Menu'
+        "400":
+          description: 无效的请求参数
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 创建新菜单
+      tags:
+      - 菜单管理
+    put:
+      consumes:
+      - application/json
+      description: 更新特定的菜单项
+      parameters:
+      - description: 更新的菜单信息
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/models.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回更新后的菜单信息
+          schema:
+            $ref: '#/definitions/models.Menu'
+        "400":
+          description: 无效的请求参数
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 更新菜单
+      tags:
+      - 菜单管理
+  /api/menus/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除特定的菜单项
+      parameters:
+      - description: 菜单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功消息
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 无效的ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 删除菜单
+      tags:
+      - 菜单管理
+    get:
+      consumes:
+      - application/json
+      description: 通过ID获取特定的菜单项
+      parameters:
+      - description: 菜单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回菜单信息
+          schema:
+            $ref: '#/definitions/models.Menu'
+        "400":
+          description: 无效的ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 菜单未找到
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 通过ID获取菜单
+      tags:
+      - 菜单管理
+  /api/menus/{id}/permissions:
+    get:
+      consumes:
+      - application/json
+      description: 获取指定菜单ID下的所有权限数据
+      parameters:
+      - description: 菜单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回权限列表
+          schema:
+            items:
+              $ref: '#/definitions/models.Permission'
+            type: array
+        "400":
+          description: 无效的菜单ID
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "404":
+          description: 菜单未找到
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取指定菜单的所有权限
+      tags:
+      - 菜单管理
+  /api/menus/getRoutes:
+    get:
+      consumes:
+      - application/json
+      description: 获取当前登录用户的菜单列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回用户的菜单列表
+          schema:
+            items:
+              $ref: '#/definitions/models.Menu'
+            type: array
+        "401":
+          description: 用户未认证
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取用户菜单
+      tags:
+      - 菜单管理
+  /api/menus/menusWithRoles:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有菜单项及其关联的角色，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回菜单列表（包含角色）、总数、页码和每页数量
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取所有菜单及其角色
+      tags:
+      - 菜单管理
+  /api/menus/permissions/{id}:
+    post:
+      consumes:
+      - application/json
+      description: 为指定菜单添加一组权限
+      parameters:
+      - description: 菜单ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 权限列表
+        in: body
+        name: permissions
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.Permission'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 添加权限成功
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "404":
+          description: 菜单未找到
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 为菜单添加权限
+      tags:
+      - 菜单管理
+  /api/role:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有角色，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回角色列表、总数、页码和每页数量
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 获取所有角色
+      tags:
+      - 角色管理
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的角色
+      parameters:
+      - description: 角色信息
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 返回创建的角色信息
+          schema:
+            $ref: '#/definitions/models.Role'
+        "400":
+          description: 无效的请求参数
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 创建角色
+      tags:
+      - 角色管理
+    put:
+      consumes:
+      - application/json
+      description: 更新特定的角色
+      parameters:
+      - description: 更新的角色信息
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回更新成功消息和更新后的角色信息
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 无效的请求参数
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 更新角色
+      tags:
+      - 角色管理
+  /api/role/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除特定的角色
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除成功消息
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 无效的ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 服务器内部错误
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 删除角色
+      tags:
+      - 角色管理
+    get:
+      consumes:
+      - application/json
+      description: 通过ID获取特定的角色
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回角色信息
+          schema:
+            $ref: '#/definitions/models.Role'
+        "400":
+          description: 无效的ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 角色未找到
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: 根据ID获取角色
+      tags:
+      - 角色管理
+  /api/role/{id}/assignedMenus:
+    get:
+      consumes:
+      - application/json
+      description: 获取特定角色已分配的菜单ID列表
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回已分配的菜单ID列表
+          schema:
+            additionalProperties:
+              items:
+                type: integer
+              type: array
+            type: object
+        "400":
+          description: 无效的角色ID
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取角色已分配的菜单
+      tags:
+      - 角色管理
+  /api/role/assignMenus:
+    post:
+      consumes:
+      - application/json
+      description: 为特定角色分配一组菜单
+      parameters:
+      - description: 包含role_id和menu_ids的JSON
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 菜单分配成功消息
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 为角色分配菜单
+      tags:
+      - 角色管理
+schemes:
+- http
+- https
+securityDefinitions:
+  Bearer:
+    description: 请输入 'Bearer {token}' 来进行身份验证
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
