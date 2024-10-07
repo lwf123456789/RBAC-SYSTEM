@@ -66,6 +66,7 @@ RBAC-SYSTEM/
 │   │   ├── Pagination/  # tailwind自定义封装分页组件
 │   │   └── system/      # 系统管理相关组件（动态菜单页面就按照这样的格式）
 │   ├── contexts/        # React 上下文
+│   ├── hooks/           # 自定义hooks封装
 │   ├── data/            # 静态数据
 │   ├── styles/          # 全局样式
 │   ├── types/           # TypeScript 类型定义
