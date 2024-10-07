@@ -1,6 +1,6 @@
-# Com Admin - 现代化的后台管理系统
+# RBAC Admin - 现代化的后台管理系统
 
-Com Admin 是一个基于 Next.js 14 构建的强大、灵活且用户友好的后台管理系统。它集成了最新的 Web 技术，为开发者提供了一个高效的管理界面开发平台。
+RBAC Admin 是一个基于 Next.js 14 构建的强大、灵活且用户友好的后台管理系统。它集成了最新的 Web 技术，为开发者提供了一个高效的管理界面开发平台。
 
 ## 🚀 特性
 
@@ -29,8 +29,7 @@ Com Admin 是一个基于 Next.js 14 构建的强大、灵活且用户友好的�
 
 1. 克隆仓库:
    ```bash
-   git clone https://your-repository-url.git
-   cd com-admin
+   git clone https://https://github.com/lwf123456789/RBAC-SYSTEM.git
    ```
 
 2. 安装依赖:
