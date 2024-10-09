@@ -70,14 +70,16 @@ const UserManagement: React.FC = () => {
     fetch('/api/department/get')
       .then(response => response.json())
       .then(data => {
+        console.log('data.departments', data.departments);
+        const departments = data.departments
         // 供给添加修改表单使用
-        setDepartmentOption(data.map((department: { name: string; id: number }) => ({
+        setDepartmentOption(departments.map((department: { name: string; id: number }) => ({
           label: department.name,
           value: department.id,
         })))
 
         // 构建树形结构
-        const tree = buildTree(data)
+        const tree = buildTree(departments)
         setTreeData(tree)
         setTreeLoading(false)
       })

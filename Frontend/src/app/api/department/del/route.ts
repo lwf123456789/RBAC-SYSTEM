@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { $serverReq } from '@/utils/serverRequest';
 
-export async function GET(request: any) {
+export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const page = searchParams.get('page') || '1';
-    const pageSize = searchParams.get('pageSize') || '999';
+    const id = searchParams.get('id');
+    if (!id) {
+      return NextResponse.json({ error: 'ID缺失' }, { status: 400 });
+    }
 
-    const data = await $serverReq.get(`/api/department?page=${page}&pageSize=${pageSize}`);
+    const data = await $serverReq.delete(`/api/department/${id}`);
+
     return NextResponse.json(data);
   }  catch (error: any) {
     return NextResponse.json(

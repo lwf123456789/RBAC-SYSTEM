@@ -382,7 +382,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: 获取部门所有数据
+      description: 获取所有部门数据
       produces:
       - application/json
       responses:
@@ -395,9 +395,106 @@ paths:
         "500":
           description: 服务器内部错误
           schema:
-            additionalProperties: true
-            type: object
-      summary: 获取部门列表
+            $ref: '#/definitions/errors.APIError'
+      summary: 获取所有部门
+      tags:
+      - 部门管理
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的部门
+      parameters:
+      - description: 部门信息
+        in: body
+        name: department
+        required: true
+        schema:
+          $ref: '#/definitions/models.Department'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Department'
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 创建部门
+      tags:
+      - 部门管理
+  /api/department/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定ID的部门
+      parameters:
+      - description: 部门ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "404":
+          description: 部门不存在
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 删除部门
+      tags:
+      - 部门管理
+    put:
+      consumes:
+      - application/json
+      description: 更新指定ID的部门信息
+      parameters:
+      - description: 部门ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 部门信息
+        in: body
+        name: department
+        required: true
+        schema:
+          $ref: '#/definitions/models.Department'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Department'
+        "400":
+          description: 无效的请求参数
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "404":
+          description: 部门不存在
+          schema:
+            $ref: '#/definitions/errors.APIError'
+        "500":
+          description: 服务器内部错误
+          schema:
+            $ref: '#/definitions/errors.APIError'
+      summary: 更新部门
       tags:
       - 部门管理
   /api/dicts:
